@@ -33,17 +33,16 @@ class Node():
     """
     Returns a string representation of this node's children.
     """
-    baseDir = ""
+    value = ""
     for i in range(self.depth):
-      baseDir += "━"
-    baseFile = ""
-    for i in range(self.depth + 1):
-      baseFile += "━"
-    value = baseDir + self.name
-    for dir in self.children:
-      value += "\n" + baseDir + str(dir)
+      if i == self.depth - 1:
+        value += "┣━"
+      else:
+        value += " "
     
-    for file in self.files:
-      value += "\n" + baseFile + file
+    value += self.name
+    
+    for dir in self.children:
+      value += "\n" + str(dir)
     
     return value

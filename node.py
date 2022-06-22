@@ -1,34 +1,49 @@
 
 
 class Node():
-  def __init__(self, location, parent=None):
+  def __init__(self, name, parent=None):
     self.parent = parent
+    self.name = name
+
     self.children = []
     self.files = []
-    self.location = location
+    
     if self.parent is None:
+      # If there is no parent, then this Node must be the root, depth is 0 here
       self.depth = 0
     else:
+      # Otherwise, set the depth equal to the parent's depth + 1
       self.depth = self.parent.depth + 1
   
+  
   def get_path(self):
+    """
+    Returns the full path to the node.
+
+    This is a recursive method and will
+    call itself on the parent node until 
+    it reaches the root node of the tree
+    """
     path = ""
     if self.parent:
       path += self.parent.get_path()
-    return path + self.location + "\\"
+    return path + self.name + "\\"
 
   def __str__(self) -> str:
-      baseDir = ""
-      for i in range(self.depth):
-        baseDir += "--"
-      baseFile = ""
-      for i in range(self.depth + 1):
-        baseFile += "--"
-      value = baseDir + self.location
-      for dir in self.children:
-        value += "\n" + baseDir + str(dir)
-      
-      for file in self.files:
-        value += "\n" + baseFile + file
-      
-      return value
+    """
+    Returns a string representation of this node's children.
+    """
+    baseDir = ""
+    for i in range(self.depth):
+      baseDir += "━"
+    baseFile = ""
+    for i in range(self.depth + 1):
+      baseFile += "━"
+    value = baseDir + self.name
+    for dir in self.children:
+      value += "\n" + baseDir + str(dir)
+    
+    for file in self.files:
+      value += "\n" + baseFile + file
+    
+    return value
